@@ -22,12 +22,22 @@ dependencies:
   google_fonts: ^6.2.1
   dots_indicator: ^4.0.1
   cached_network_image: ^3.4.1
-
+  retrofit: ^4.6.0
+  logger: ^2.6.0  # for logging purpose
+  json_annotation: ^4.9.0
+  dio: ^5.9.0
+  injectable:
+    # add get_it
+  get_it:
+  pretty_dio_logger: ^1.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^5.0.0
+  retrofit_generator: ^10.0.1
+  build_runner: ^2.6.0
+  json_serializable: ^6.10.0
+  injectable_generator:
 
 flutter:
   uses-material-design: true
