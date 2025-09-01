@@ -23,6 +23,7 @@ import '../../features/auth/domain/usecases/login_usecase.dart' as _i188;
 import '../../features/auth/domain/usecases/register_usecase.dart' as _i941;
 import '../../features/auth/ui/login/cubit/login_cubit.dart' as _i416;
 import '../../features/network%20/api_services.dart' as _i635;
+import '../shared_prefs_helper/shared_prefs_helper.dart' as _i7;
 import 'get_it_modules.dart' as _i320;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -34,12 +35,16 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final getItModules = _$GetItModules();
     gh.factory<_i361.Dio>(() => getItModules.getDio());
+    gh.factory<_i7.SharedPrefsHelper>(() => _i7.SharedPrefsHelper());
     gh.factory<_i635.ApiServices>(() => _i635.ApiServices.new(gh<_i361.Dio>()));
     gh.factory<_i385.AuthRemoteDataSource>(
       () => _i1045.AuthRemoteDataSourceImpl(gh<_i635.ApiServices>()),
     );
     gh.factory<_i723.AuthRepo>(
-      () => _i913.AuthRepoImpl(gh<_i385.AuthRemoteDataSource>()),
+      () => _i913.AuthRepoImpl(
+        gh<_i385.AuthRemoteDataSource>(),
+        gh<_i7.SharedPrefsHelper>(),
+      ),
     );
     gh.factory<_i941.RegisterUseCase>(
       () => _i941.RegisterUseCase(gh<_i723.AuthRepo>()),
