@@ -22,16 +22,19 @@ class AuthTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        Text(title,style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.white,fontSize: 18),),
-        const SizedBox(height: 24,),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            color: AppColors.white,
+            fontSize: 18,
+          ),
+        ),
+        const SizedBox(height: 24),
         TextFormField(
           controller: controller,
-          validator:validator ,
-
+          validator: validator,
           obscureText: obscureText,
           decoration: InputDecoration(
-
             hintText: hintText,
             filled: true,
             fillColor: Colors.white,
@@ -49,7 +52,6 @@ class AuthTextField extends StatelessWidget {
             ),
           ),
           style: const TextStyle(color: Colors.black87),
-
         ),
       ],
     );

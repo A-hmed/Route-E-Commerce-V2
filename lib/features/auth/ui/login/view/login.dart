@@ -29,7 +29,6 @@ class Login extends StatelessWidget {
       listener: (context, state){
        if(state.loginApi.hasData){
          Navigator.pop(context);
-         print("state.loginApi.hasData");
          Navigator.pushNamed(context, Routes.navigationRoute);
        }else if(state.loginApi.hasError){
          Navigator.pop(context);
@@ -71,7 +70,7 @@ class Login extends StatelessWidget {
                       validator: Validation.validateEmail,
                       controller: emailController,
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
                     AuthTextField(
                       title: AppLocalizations.of(context)!.enterYourPassword,
