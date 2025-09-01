@@ -6,7 +6,6 @@ import 'package:route_e_commerce_v2/core/routing/app_router.dart';
 import 'package:route_e_commerce_v2/core/routing/routes.dart';
 import 'package:route_e_commerce_v2/core/shared_prefs_helper/shared_prefs_helper.dart';
 import 'package:route_e_commerce_v2/core/theme/app_theme.dart';
-import 'package:route_e_commerce_v2/features/network%20/api_services.dart';
 
 import 'core/di/di.dart';
 

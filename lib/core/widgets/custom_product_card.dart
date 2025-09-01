@@ -48,12 +48,14 @@ class CustomProductCard extends StatelessWidget {
                       Text(
                         product.title ?? 'Unknown Product',
                         style: textTheme.headlineSmall,
+                        maxLines: 1,
                       ),
 
                       Text(
                         product.description ?? 'No description available',
                         style: textTheme.headlineSmall,
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       const SizedBox(height: 8),
                       Row(

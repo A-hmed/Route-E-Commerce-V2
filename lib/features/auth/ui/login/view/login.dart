@@ -15,6 +15,7 @@ import 'package:route_e_commerce_v2/features/auth/ui/widgets/auth_textfield.dart
 ///Widget -> ViewModel -> Usecase-> Repoistory-> Datasources
 class Login extends StatelessWidget {
   LoginCubit loginCubit = getIt();
+
   Login({super.key});
 
   var emailController = TextEditingController();
@@ -26,18 +27,22 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
-      bloc: loginCubit, /// instead of using bloc provider
-      listener: (context, state){
-        if(state.loginApiState is SuccessApiResult){
+      bloc: loginCubit,
+
+      /// instead of using bloc provider
+      listener: (context, state) {
+        if (state.loginApiState is SuccessApiResult) {
           Navigator.pop(context);
           Navigator.pushNamed(context, Routes.navigationRoute);
-        }else if(state.loginApiState is ErrorApiResult){
+        } else if (state.loginApiState is ErrorApiResult) {
           Navigator.pop(context);
-          showMessage(context,
-              title: "error",
-              message: (state.loginApiState as ErrorApiResult).errorMessage,
-               posButtonText: "ok");
-        }else if(state.loginApiState is LoadingApiResult){
+          showMessage(
+            context,
+            title: "error",
+            message: (state.loginApiState as ErrorApiResult).errorMessage,
+            posButtonText: "ok",
+          );
+        } else if (state.loginApiState is LoadingApiResult) {
           showLoading(context);
         }
       },
@@ -54,22 +59,18 @@ class Login extends StatelessWidget {
                   children: [
                     Image.asset(AppImages.logo),
                     const SizedBox(height: 80),
-      
+
                     Text(
                       AppLocalizations.of(context)!.welcomeBackToRoute,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineMedium!.copyWith(color: AppColors.white),
+                      style: Theme.of(context).textTheme.headlineMedium!
+                          .copyWith(color: AppColors.white),
                     ),
-      
+
                     Text(
                       AppLocalizations.of(context)!.pleaseSignInWithYourMail,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 40),
-      
-      
-      
                     AuthTextField(
                       title: AppLocalizations.of(context)!.enterYourMail,
                       hintText: AppLocalizations.of(context)!.mail,
@@ -77,7 +78,6 @@ class Login extends StatelessWidget {
                       controller: emailController,
                     ),
                     SizedBox(height: 40),
-      
                     AuthTextField(
                       title: AppLocalizations.of(context)!.enterYourPassword,
                       hintText: AppLocalizations.of(context)!.password,
@@ -85,7 +85,7 @@ class Login extends StatelessWidget {
                       obscureText: true,
                       controller: passwordController,
                     ),
-      
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -101,23 +101,25 @@ class Login extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 56),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        loginCubit.login(emailController.text, passwordController.text);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.white),
-                    child: Text(
-                      AppLocalizations.of(context)!.signIn,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium!.copyWith(color: AppColors.darkBlue),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (!formKey.currentState!.validate()) return;
+                        loginCubit.login(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.white,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.signIn,
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(color: AppColors.darkBlue),
+                      ),
                     ),
-                  ),
-      
                     const SizedBox(height: 32),
-      
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -129,7 +131,7 @@ class Login extends StatelessWidget {
                           onPressed: () {
                             // TODO:  Navigate to create account
                           },
-      
+
                           child: Text(
                             AppLocalizations.of(context)!.createAccount,
                             style: Theme.of(context).textTheme.titleLarge,

@@ -27,8 +27,7 @@ class AuthTextField extends StatelessWidget {
         const SizedBox(height: 24,),
         TextFormField(
           controller: controller,
-          validator:validator ,
-
+          validator:validator,
           obscureText: obscureText,
           decoration: InputDecoration(
 
