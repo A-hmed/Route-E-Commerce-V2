@@ -4,5 +4,9 @@ import 'package:route_e_commerce_v2/features/network/model/response/products/pro
 
 abstract class HomeRemoteDataSource{
   Future<ApiResult<CategoriesResponse>> loadCategories();
-  Future<ApiResult<ProductsResponse>> loadProducts();
+
+  Future<ApiResult<CategoriesResponse>> loadSubCategories(String categoryId);
+
+  Future<ApiResult<ProductsResponse>> loadProducts({String? categoryId,
+    String? subCategoryId});
 }

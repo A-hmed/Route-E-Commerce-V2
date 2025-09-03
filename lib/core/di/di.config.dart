@@ -38,9 +38,15 @@ import '../../features/navigation_layout/domain/usecase/load_categories_use_case
     as _i572;
 import '../../features/navigation_layout/domain/usecase/load_products_use_case.dart'
     as _i526;
+import '../../features/navigation_layout/domain/usecase/load_subcategories.dart'
+    as _i1035;
+import '../../features/navigation_layout/tabs/categories/presentation/cubit/categories_cubit.dart'
+    as _i774;
 import '../../features/navigation_layout/tabs/home/presentation/cubit/home_tab_cubit.dart'
     as _i627;
 import '../../features/network/api/commerce_services.dart' as _i392;
+import '../../features/products/ui/screens/category_products/cubit/category_products_cubit.dart'
+    as _i321;
 import '../shared_pref_helper/shared_pref_helper.dart' as _i1062;
 import 'get_it_modules.dart' as _i320;
 
@@ -84,11 +90,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i526.LoadProductsUseCase>(
       () => _i526.LoadProductsUseCase(gh<_i318.HomeRepository>()),
     );
+    gh.factory<_i1035.LoadSubCategoriesUseCase>(
+      () => _i1035.LoadSubCategoriesUseCase(gh<_i318.HomeRepository>()),
+    );
     gh.factory<_i627.HomeTabCubit>(
       () => _i627.HomeTabCubit(
         gh<_i572.LoadCategoriesUseCase>(),
         gh<_i526.LoadProductsUseCase>(),
       ),
+    );
+    gh.factory<_i774.CategoriesCubit>(
+      () => _i774.CategoriesCubit(
+        gh<_i572.LoadCategoriesUseCase>(),
+        gh<_i1035.LoadSubCategoriesUseCase>(),
+      ),
+    );
+    gh.factory<_i321.CategoryProductsCubit>(
+      () => _i321.CategoryProductsCubit(gh<_i526.LoadProductsUseCase>()),
     );
     gh.factory<_i911.LoginUseCase>(
       () => _i911.LoginUseCase(gh<_i544.AuthRepository>()),

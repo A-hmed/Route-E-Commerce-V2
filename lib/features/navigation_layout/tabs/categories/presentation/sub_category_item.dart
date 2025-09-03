@@ -4,13 +4,15 @@ import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 class SubCategoryItem extends StatelessWidget {
   final String title;
   final String image;
-  final Function navigation;
-  const SubCategoryItem(this.title, this.image, this.navigation, {super.key});
+  final Function onItemClick;
+  const SubCategoryItem(this.title, this.image, this.onItemClick, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        onItemClick();
+      },
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,7 +34,9 @@ class SubCategoryItem extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(color: AppColors.blue),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.blue, fontSize: 16),
+            maxLines: 1,
           )
         ],
       ),

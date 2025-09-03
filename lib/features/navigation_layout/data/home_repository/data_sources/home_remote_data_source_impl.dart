@@ -22,10 +22,35 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   }
 
   @override
-  Future<ApiResult<ProductsResponse>> loadProducts() async {
+  Future<ApiResult<ProductsResponse>> loadProducts({
+    String? categoryId,
+    String? subCategoryId,
+  }) async {
+    print(
+      "HomeRemoteDataSourceImpl, loadProducts, categoryId: $categoryId, subCategoryId: $subCategoryId",
+    );
     try {
-      var productsResponse = await _commerceServices.loadProducts();
+      var productsResponse = categoryId != null
+          ? await _commerceServices.loadProductsByCategory(
+              categoryId,
+              subCategoryId,
+            )
+          : await _commerceServices.loadProducts();
       return SuccessApiResult(productsResponse);
+    } catch (e) {
+      return ErrorApiResult(ServerError(e.toString()));
+    }
+  }
+
+  @override
+  Future<ApiResult<CategoriesResponse>> loadSubCategories(
+    String categoryId,
+  ) async {
+    try {
+      var categoriesResponse = await _commerceServices.loadSubCategories(
+        categoryId,
+      );
+      return SuccessApiResult(categoriesResponse);
     } catch (e) {
       return ErrorApiResult(ServerError(e.toString()));
     }

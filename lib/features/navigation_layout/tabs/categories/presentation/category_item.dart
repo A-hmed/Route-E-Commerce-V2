@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 
 class CategoryItem extends StatelessWidget {
-  final int index;
   final String title;
-
   final bool isSelected;
   final Function onItemClick;
 
   const CategoryItem(
-    this.index,
     this.title,
     this.isSelected,
     this.onItemClick, {
@@ -20,10 +17,10 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // Handle item click by calling onItemClick callback
     return InkWell(
-      onTap: () => onItemClick(index),
+      onTap: () => onItemClick(),
       child: Container(
         // Set background color based on selection
-        color: isSelected ? AppColors.white : Colors.transparent,
+        color: isSelected ? AppColors.white : AppColors.white,
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [

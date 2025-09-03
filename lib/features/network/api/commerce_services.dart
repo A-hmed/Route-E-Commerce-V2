@@ -28,4 +28,15 @@ abstract class CommerceServices {
   @GET('/products')
   Future<ProductsResponse> loadProducts();
 
+  @GET('/products?category={categoryId}&category={subCategoryId}')
+  Future<ProductsResponse> loadProductsByCategory(
+      @Path() String? categoryId,
+      @Path() String? subCategoryId,
+      );
+
+
+
+  @GET("/categories/{categoryId}/subcategories")
+  Future<CategoriesResponse> loadSubCategories(@Path() String categoryId);
+
 }
