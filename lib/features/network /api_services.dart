@@ -7,6 +7,7 @@ import 'package:route_e_commerce_v2/features/network%20/model/response/category_
 import 'package:route_e_commerce_v2/features/network%20/model/response/products_response/ProductsResponse.dart';
 import 'package:route_e_commerce_v2/features/network%20/model/response/token_response/token_response.dart';
 import 'package:retrofit/error_logger.dart';
+
 part 'api_services.g.dart';
 
 @injectable
@@ -15,16 +16,26 @@ abstract class ApiServices {
   @factoryMethod
   factory ApiServices(Dio dio) = _ApiServices;
 
-   @POST("/auth/signin")
-   Future<TokenResponse> login(@Body() LoginRequest request);
+  @POST("/auth/signin")
+  Future<TokenResponse> login(@Body() LoginRequest request);
 
   @POST("/auth/signup")
   Future<TokenResponse> register(@Body() RegisterRequest request);
-  
+
   @GET("/products")
   Future<ProductsResponse> getProducts();
+
+  @GET("/products?category={categoryId}&category={subCategoryId}")
+  Future<ProductsResponse> getProductsOnCategory (
+    @Path() String categoryId,
+    @Path() String subCategoryId,
+  );
 
   @GET("/categories")
   Future<CategoriesResponse> getCategories();
 
+  @GET("/categories/{categoryId}/subcategories")
+  Future<CategoriesResponse> getSubCategoriesOnCategory(
+    @Path() String categoryId,
+  );
 }

@@ -44,7 +44,7 @@ class _HomeTabViewState extends State<HomeTabView> {
             bloc: homeCubit,
             builder: (context, state) {
               if (state.categoriesState.hasData) {
-                return CategoriesList(categories: state.categoriesState.myData);
+                return HomeCategoriesList(categories: state.categoriesState.myData);
               }else if(state.categoriesState.hasError){
                 return Text(state.categoriesState.myErrorMessage);
               }else {

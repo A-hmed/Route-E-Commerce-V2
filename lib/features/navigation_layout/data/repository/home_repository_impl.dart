@@ -34,15 +34,18 @@ class HomeRepositoryImpl implements HomeRepository {
         return ErrorApiResult(result.myErrorMessage);
       }
     } catch (e) {
-      return ErrorApiResult("Something went worng please try again later");
+      return ErrorApiResult("Something went wrong please try again later");
     }
   }
 
   @override
-  Future<ApiResult<List<Product>>> getProducts() async {
+  Future<ApiResult<List<Product>>> getProducts({
+    String? categoryId,
+    String? subCategoryId,
+  }) async {
     try {
-      ApiResult<ProductsResponse> result =
-          await _homeRemoteDataSource.getProducts();
+      ApiResult<ProductsResponse> result = await _homeRemoteDataSource
+          .getProducts(categoryId: categoryId, subCategoryId: subCategoryId);
       if (result.hasData) {
         return SuccessApiResult(
           _productMapper.fromDataModels(result.myData.data ?? []),
@@ -51,7 +54,24 @@ class HomeRepositoryImpl implements HomeRepository {
         return ErrorApiResult(result.myErrorMessage);
       }
     } catch (e) {
-      return ErrorApiResult("Something went worng please try again later");
+      return ErrorApiResult("Something went wrong please try again later");
+    }
+  }
+
+  @override
+  Future<ApiResult<List<Category>>> getSubCategories(String categoryId) async {
+    try {
+      ApiResult<CategoriesResponse> result = await _homeRemoteDataSource
+          .getSubCategories(categoryId);
+      if (result.hasData) {
+        return SuccessApiResult(
+          _categoryMapper.fromDataModels(result.myData.data ?? []),
+        );
+      } else {
+        return ErrorApiResult(result.myErrorMessage);
+      }
+    } catch (e) {
+      return ErrorApiResult("Something went wrong please try again later");
     }
   }
 }

@@ -4,5 +4,9 @@ import 'package:route_e_commerce_v2/features/products/domain/entity/product.dart
 
 abstract class HomeRepository{
   Future<ApiResult<List<Category>>> getCategories();
-  Future<ApiResult<List<Product>>> getProducts();
+  Future<ApiResult<List<Category>>> getSubCategories(String categoryId);
+  Future<ApiResult<List<Product>>> getProducts({
+    String? categoryId,
+    String? subCategoryId,
+  });
 }

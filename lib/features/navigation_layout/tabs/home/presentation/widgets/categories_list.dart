@@ -3,9 +3,9 @@ import 'package:route_e_commerce_v2/core/utils/dummy_data_provider.dart';
 import 'package:route_e_commerce_v2/features/navigation_layout/tabs/categories/domain/entities/category.dart';
 import 'category_widget.dart';
 
-class CategoriesList extends StatelessWidget {
+class HomeCategoriesList extends StatelessWidget {
   final List<Category> categories;
-  const CategoriesList({super.key, required this.categories});
+  const HomeCategoriesList({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context) {

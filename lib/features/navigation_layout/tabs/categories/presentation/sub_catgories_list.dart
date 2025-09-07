@@ -1,12 +1,21 @@
-
 import 'package:flutter/material.dart';
+import 'package:route_e_commerce_v2/core/routing/routes.dart';
 import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 import 'package:route_e_commerce_v2/core/utils/app_assets.dart';
+import 'package:route_e_commerce_v2/features/navigation_layout/tabs/categories/domain/entities/category.dart';
 import 'package:route_e_commerce_v2/features/navigation_layout/tabs/categories/presentation/category_card_item.dart';
 import 'package:route_e_commerce_v2/features/navigation_layout/tabs/categories/presentation/sub_category_item.dart';
+import 'package:route_e_commerce_v2/features/products/ui/screens/category_products/category_products_args.dart';
 
 class SubCategoriesList extends StatelessWidget {
-  const SubCategoriesList({super.key});
+  final Category selectedCategory;
+  final List<Category> subCategories;
+
+  const SubCategoriesList({
+    super.key,
+    required this.selectedCategory,
+    required this.subCategories,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,37 +26,53 @@ class SubCategoriesList extends StatelessWidget {
           // category title
           SliverToBoxAdapter(
             child: Text(
-              'Laptops & Electronics',
-              style: TextStyle(
-                  color: AppColors.blue, fontSize: 14),
+              selectedCategory.name ?? "",
+              style: const TextStyle(color: AppColors.blue, fontSize: 14),
             ),
           ),
           // the category card
           SliverToBoxAdapter(
-            child: CategoryCardItem("Laptops & Electronics",
-                AppImages.advertisement1, goToCategoryProductsListScreen),
+            child: CategoryCardItem(
+              selectedCategory.name ?? "",
+              selectedCategory.image ?? "",
+            ),
           ),
           // the grid view of the subcategories
-          SliverGrid(
+          if (subCategories.isNotEmpty)
+            SliverGrid(
               delegate: SliverChildBuilderDelegate(
-                childCount: 26,
-                    (context, index) => SubCategoryItem(
-                    'Watches',
-                    "",
-                    goToCategoryProductsListScreen),
+                childCount: subCategories.length,
+                (context, index) => SubCategoryItem(
+                  subCategories[index].name ?? "",
+                  AppImages.advertisement1,
+                  () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.categoryProducts,
+                      arguments: CategoryProductsArgs(
+                        selectedCategory.id ?? "",
+                        subCategories[index].id ?? "",
+                      ),
+                    );
+                  },
+                ),
               ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 0.75,
+                childAspectRatio: .7,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-              ))
+              ),
+            )
+          else
+            const SliverToBoxAdapter(
+              child: Text(
+                "No subcategories found",
+                style: TextStyle(color: AppColors.darkBlue),
+              ),
+            ),
         ],
       ),
     );
-  }
-
-  goToCategoryProductsListScreen() {
-    // todo implement this function
   }
 }

@@ -4,7 +4,6 @@ import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 class CategoryItem extends StatelessWidget {
   final int index;
   final String title;
-
   final bool isSelected;
   final Function onItemClick;
 
@@ -23,7 +22,7 @@ class CategoryItem extends StatelessWidget {
       onTap: () => onItemClick(index),
       child: Container(
         // Set background color based on selection
-        color: isSelected ? AppColors.white : Colors.transparent,
+        color: AppColors.white,
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [

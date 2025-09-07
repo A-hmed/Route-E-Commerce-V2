@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:route_e_commerce_v2/core/routing/routes.dart';
 import 'package:route_e_commerce_v2/features/auth/ui/login/view/login.dart';
 import 'package:route_e_commerce_v2/features/navigation_layout/navigation_view.dart';
+import 'package:route_e_commerce_v2/features/products/ui/screens/category_products/category_products.dart';
+import 'package:route_e_commerce_v2/features/products/ui/screens/category_products/category_products_args.dart';
 
 abstract class AppRouter {
   static Route generateRoute(RouteSettings settings) {
@@ -23,6 +25,10 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) =>  Login(),
         );
+      case Routes.categoryProducts:
+        var args = settings.arguments as CategoryProductsArgs;
+        return MaterialPageRoute(builder: (_)=>
+            CategoryProducts(args: args,));
       default:
         return MaterialPageRoute(
           settings: settings,

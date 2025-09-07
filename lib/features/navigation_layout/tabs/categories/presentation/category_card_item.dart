@@ -4,9 +4,8 @@ import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 class CategoryCardItem extends StatelessWidget {
   final String title;
   final String image;
-  final Function navigation;
 
-  const CategoryCardItem(this.title, this.image, this.navigation, {super.key});
+  const CategoryCardItem(this.title, this.image, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class CategoryCardItem extends StatelessWidget {
         child: Stack(
           children: [
             // Background image for the category
-            Image.asset(image, fit: BoxFit.cover, width: double.infinity),
+            Image.network(image, fit: BoxFit.cover, width: double.infinity),
             // Overlay with category title and button
             Positioned.fill(
               child: Padding(

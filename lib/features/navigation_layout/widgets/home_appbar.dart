@@ -5,7 +5,7 @@ import 'package:route_e_commerce_v2/core/widgets/search_and_cart_widget.dart';
 
 class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
   final int tabIndex;
-  const HomeAppbar({super.key, required this.tabIndex});
+  const HomeAppbar({super.key, this.tabIndex = 0});
 
   @override
   Widget build(BuildContext context) {

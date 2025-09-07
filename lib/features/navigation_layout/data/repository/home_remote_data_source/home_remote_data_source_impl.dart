@@ -22,9 +22,28 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
-  Future<ApiResult<ProductsResponse>> getProducts() async {
+  Future<ApiResult<ProductsResponse>> getProducts({
+    String? categoryId,
+    String? subCategoryId,
+  }) async {
     try {
-      ProductsResponse response = await _apiServices.getProducts();
+      ProductsResponse response =
+          categoryId == null
+              ? await _apiServices.getProducts()
+              : await _apiServices.getProductsOnCategory(categoryId, subCategoryId!);
+      return SuccessApiResult(response);
+    } catch (e) {
+      return ErrorApiResult(e.toString());
+    }
+  }
+
+  @override
+  Future<ApiResult<CategoriesResponse>> getSubCategories(
+    String categoryId,
+  ) async {
+    try {
+      CategoriesResponse response = await _apiServices
+          .getSubCategoriesOnCategory(categoryId);
       return SuccessApiResult(response);
     } catch (e) {
       return ErrorApiResult(e.toString());
