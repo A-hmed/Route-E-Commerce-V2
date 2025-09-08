@@ -11,7 +11,6 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-
       title: SvgPicture.asset(AppSvgs.logo),
       bottom:
           tabIndex == 3
