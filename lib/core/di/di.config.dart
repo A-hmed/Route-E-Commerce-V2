@@ -22,6 +22,16 @@ import '../../features/auth/data/repositories/auth/data_sources/auth_remote_data
 import '../../features/auth/domain/repositories/auth_repoistory.dart' as _i544;
 import '../../features/auth/domain/usecase/login_usecase.dart' as _i911;
 import '../../features/auth/ui/login/cubit/login_cubit.dart' as _i416;
+import '../../features/cart/data/cart_repository/cart_repository_impl.dart'
+    as _i400;
+import '../../features/cart/data/cart_repository/data_source%20/cart_remote_data_source.dart'
+    as _i325;
+import '../../features/cart/data/cart_repository/data_source%20/cart_remote_data_source_impl.dart'
+    as _i286;
+import '../../features/cart/data/mapper/cart_mapper.dart' as _i817;
+import '../../features/cart/domain/repository/cart_repository.dart' as _i26;
+import '../../features/cart/presentation/cart_cubit%20/cart_cubit.dart'
+    as _i579;
 import '../../features/navigation_layout/data/home_repository/data_sources/home_remote_data_source.dart'
     as _i726;
 import '../../features/navigation_layout/data/home_repository/data_sources/home_remote_data_source_impl.dart'
@@ -65,6 +75,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i392.CommerceServices>(
       () => _i392.CommerceServices.new(gh<_i361.Dio>()),
     );
+    gh.factory<_i817.CartMapper>(
+      () => _i817.CartMapper(gh<_i993.ProductMapper>()),
+    );
+    gh.factory<_i325.CartRemoteDataSource>(
+      () => _i286.CartRemoteDataSourceImpl(gh<_i392.CommerceServices>()),
+    );
+    gh.factory<_i26.CartRepository>(
+      () => _i400.CartRepositoryImpl(
+        gh<_i817.CartMapper>(),
+        gh<_i325.CartRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i726.HomeRemoteDataSource>(
       () => _i153.HomeRemoteDataSourceImpl(gh<_i392.CommerceServices>()),
     );
@@ -78,20 +100,23 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i993.ProductMapper>(),
       ),
     );
+    gh.factory<_i579.CartCubit>(
+      () => _i579.CartCubit(gh<_i26.CartRepository>()),
+    );
     gh.factory<_i544.AuthRepository>(
       () => _i638.AuthRepositoryImpl(
         gh<_i61.AuthRemoteDataSource>(),
         gh<_i1062.SharedPrefHelper>(),
       ),
     );
+    gh.factory<_i1035.LoadSubCategoriesUseCase>(
+      () => _i1035.LoadSubCategoriesUseCase(gh<_i318.HomeRepository>()),
+    );
     gh.factory<_i572.LoadCategoriesUseCase>(
       () => _i572.LoadCategoriesUseCase(gh<_i318.HomeRepository>()),
     );
     gh.factory<_i526.LoadProductsUseCase>(
       () => _i526.LoadProductsUseCase(gh<_i318.HomeRepository>()),
-    );
-    gh.factory<_i1035.LoadSubCategoriesUseCase>(
-      () => _i1035.LoadSubCategoriesUseCase(gh<_i318.HomeRepository>()),
     );
     gh.factory<_i627.HomeTabCubit>(
       () => _i627.HomeTabCubit(

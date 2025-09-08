@@ -1,41 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:route_e_commerce_v2/core/utils/dummy_data_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:route_e_commerce_v2/core/theme/app_colors.dart';
 import 'package:route_e_commerce_v2/features/cart/domain/entities/cart.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_cubit.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_state.dart';
 import 'package:route_e_commerce_v2/features/cart/presentation/widgets/checkout_section.dart';
 
 import '../widgets/cart_product_widget.dart';
 import '../widgets/cart_screen_appbar.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final Cart cart = DummyDataProvider.generateProductsInCart();
+  State<CartScreen> createState() => _CartScreenState();
+}
 
+class _CartScreenState extends State<CartScreen> {
+  ///Lazy initialization
+  late CartCubit cartCubit = BlocProvider.of(context);
+
+  @override
+  void initState() {
+    super.initState();
+    cartCubit.loadCart();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CartScreenAppbar(),
       body: Column(
         children: [
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemBuilder: (context, index) {
-                return CartProductWidget(
-                  cartProduct: cart.products![index],
-                  colorIndex:
-                      index %
-                      cart.products![index].product!.availableColors!.length,
-                );
+            child: BlocBuilder<CartCubit, CartState>(
+              builder: (context, state) {
+                print("cart state: ${state.cartApiState}");
+                if (state.cartApiState.hasData) {
+                  return buildCartView(state.cartApiState.getData);
+                } else if (state.cartApiState.hasError) {
+                  return Center(child: Text(state.cartApiState.getError.message, style: TextStyle(color: AppColors.darkBlue),));
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
               },
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-              itemCount: cart.products!.length,
             ),
           ),
-          CheckoutSection(totalCartPrice: cart.totalCartPrice ?? 0),
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+
+  buildCartView(Cart cart) {
+    var products = cart.entries.values.toList();
+    print("buildCartView products: ${products.length}");
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(16),
+            itemBuilder: (context, index) {
+              return CartProductWidget(
+                cartProduct: products[index],
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 16),
+            itemCount: products.length,
+          ),
+        ),
+        CheckoutSection(totalCartPrice: cart.totalPrice.toDouble()),
+      ],
     );
   }
 }

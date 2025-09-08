@@ -1,21 +1,10 @@
-import 'cart_product_entity.dart';
+import 'package:route_e_commerce_v2/features/cart/domain/entities/cart_entry.dart';
 
-class Cart {
-  final String? id;
-  final String? cartOwner;
-  final List<CartProduct>? products;
-  final String? createdAt;
-  final String? updatedAt;
-  final int? version;
-  final int? totalCartPrice;
+class Cart{
+  num totalPrice;
+  Map<String, CartEntry> entries;
+  int totalNumberOfItems;
 
-  Cart({
-    this.id,
-    this.cartOwner,
-    this.products,
-    this.createdAt,
-    this.updatedAt,
-    this.version,
-    this.totalCartPrice,
-  });
+  Cart({required this.entries,
+    required this.totalPrice, required this.totalNumberOfItems});
 }

@@ -7,17 +7,17 @@ class ProductMapper {
   Product fromDataModel(ProductDM product) {
     return Product(
       id: product.id,
-      title: product.title,
-      description: product.description,
-      price: product.price,
+      title: product.title ?? "",
+      description: product.description ?? "",
+      price: product.price ?? 0,
       priceAfterDiscount: product.priceAfterDiscount ?? 0,
-      imageCover: product.imageCover,
-      images: product.images,
+      imageCover: product.imageCover ?? "",
+      images: product?.images ?? [],
       categoryId: product.category?.id ?? "",
       brandId: product.brand?.id ?? "",
-      ratingsAverage: product.ratingsAverage,
-      ratingsQuantity: product.ratingsQuantity,
-      quantity: product.quantity,
+      ratingsAverage: product.ratingsAverage ?? 0,
+      ratingsQuantity: product.ratingsQuantity ?? 0,
+      quantity: product.quantity ?? 0,
       availableColors: product.availableColors ?? [],
     );
   }

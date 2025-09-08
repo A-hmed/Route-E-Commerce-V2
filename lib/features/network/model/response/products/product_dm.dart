@@ -10,21 +10,21 @@ class ProductDM {
   @JsonKey(name: '_id')
   final String id;
   final int? sold;
-  final List<String> images;
-  final List<CategoryDM> subcategory;
-  final int ratingsQuantity;
-  final String title;
-  final String slug;
-  final String description;
-  final int quantity;
-  final double price;
+  final List<String>? images;
+  final List<CategoryDM>? subcategory;
+  final int? ratingsQuantity;
+  final String? title;
+  final String? slug;
+  final String? description;
+  final int? quantity;
+  final double? price;
   final double? priceAfterDiscount;
-  final String imageCover;
-  final CategoryDM category;
-  final CategoryDM brand;
-  final double ratingsAverage;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String? imageCover;
+  final CategoryDM? category;
+  final CategoryDM? brand;
+  final double? ratingsAverage;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final List<String>? availableColors;
 
   ProductDM({
