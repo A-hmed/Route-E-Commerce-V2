@@ -7,6 +7,7 @@ class AppTheme {
     return ThemeData(
       colorScheme: colorScheme,
       splashColor: Colors.transparent,
+      scaffoldBackgroundColor: colorScheme.surface,
 
 
       textTheme: TextTheme(
@@ -45,9 +46,14 @@ class AppTheme {
           fontWeight: FontWeight.w400,
           color: colorScheme.secondary,
         ),
+        displaySmall: GoogleFonts.poppins(
+          fontSize: 10,
+          fontWeight: FontWeight.w400,
+          color: colorScheme.secondary.withValues(alpha: .6),
+          decoration: TextDecoration.lineThrough,
+        ),
         titleLarge: GoogleFonts.poppins(
           fontSize: 18,
-
           color: colorScheme.onPrimary,
         )
       ),
