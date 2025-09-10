@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void showLoading(BuildContext context) {
-  showDialog(
+bool isLoadingDialogVisible = false;
+void showLoading(BuildContext context, {Key? key}) async {
+  if(isLoadingDialogVisible) return;
+  isLoadingDialogVisible = true;
+  await showDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          content: Row(
+          key: key,
+          content: const Row(
             children: [
               CircularProgressIndicator(),
               SizedBox(
@@ -17,6 +21,13 @@ void showLoading(BuildContext context) {
           ),
         );
       });
+
+}
+hideLoading(BuildContext context) async{
+  if(isLoadingDialogVisible){
+    Navigator.pop(context);
+    isLoadingDialogVisible = false;
+  }
 }
 
 void showMessage(BuildContext context,

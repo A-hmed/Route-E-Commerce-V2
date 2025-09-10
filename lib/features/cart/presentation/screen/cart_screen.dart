@@ -39,9 +39,18 @@ class _CartScreenState extends State<CartScreen> {
                 if (state.cartApiState.hasData) {
                   return buildCartView(state.cartApiState.getData);
                 } else if (state.cartApiState.hasError) {
-                  return Center(child: Text(state.cartApiState.getError.message, style: TextStyle(color: AppColors.darkBlue),));
+                  return Center(
+                    child: Text(
+                      state.cartApiState.getError.message,
+                      style: TextStyle(color: AppColors.darkBlue),
+                    ),
+                  );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  if (state.latestCart != null) {
+                    return buildCartView(state.latestCart!);
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
                 }
               },
             ),
@@ -61,9 +70,7 @@ class _CartScreenState extends State<CartScreen> {
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemBuilder: (context, index) {
-              return CartProductWidget(
-                cartProduct: products[index],
-              );
+              return CartProductWidget(cartProduct: products[index]);
             },
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             itemCount: products.length,

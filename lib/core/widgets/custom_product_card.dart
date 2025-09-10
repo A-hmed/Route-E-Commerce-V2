@@ -1,15 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_e_commerce_v2/core/utils/app_assets.dart';
+import 'package:route_e_commerce_v2/core/widgets/product_quantity_controller.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_cubit.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_state.dart';
 import 'package:route_e_commerce_v2/features/products/domain/entity/product.dart';
 
 class CustomProductCard extends StatelessWidget {
   final Product product;
+
   const CustomProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
+    var cartCubit = BlocProvider.of<CartCubit>(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
@@ -48,7 +54,7 @@ class CustomProductCard extends StatelessWidget {
                       Text(
                         product.title ?? 'Unknown Product',
                         style: textTheme.headlineSmall,
-                        maxLines: 1 ,
+                        maxLines: 1,
                       ),
                       Text(
                         product.description ?? 'No description available',
@@ -64,15 +70,6 @@ class CustomProductCard extends StatelessWidget {
                             'EGP ${product.price ?? 0} ',
                             style: textTheme.headlineSmall,
                           ),
-                          // Text(
-                          //   " ${product.price ?? 0}",
-                          //   style: Theme.of(
-                          //     context,
-                          //   ).textTheme.headlineSmall?.copyWith(
-                          //     color: colorScheme.primary.withValues(alpha: .6),
-                          //     decoration: TextDecoration.lineThrough,
-                          //   ),
-                          // ),
                         ],
                       ),
                       Row(
@@ -88,19 +85,38 @@ class CustomProductCard extends StatelessWidget {
                               SvgPicture.asset(AppSvgs.ratingIcon),
                             ],
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // TODO: Implement add to cart functionality
-                            },
-                            style: IconButton.styleFrom(
-                              backgroundColor: colorScheme.primary,
-                              foregroundColor: colorScheme.onPrimary,
-                              visualDensity: VisualDensity.compact,
-                              shape: const CircleBorder(),
-                            ),
-                            icon: const Icon(Icons.add_rounded),
-                          ),
                         ],
+                      ),
+
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              if (state.latestCart?.isProductInCart(product.id,) != true)
+                                IconButton(
+                                  onPressed: () {
+                                    cartCubit.addProductToCart(product.id);
+                                  },
+                                  style: IconButton.styleFrom(
+                                    backgroundColor: colorScheme.primary,
+                                    foregroundColor: colorScheme.onPrimary,
+                                    visualDensity: VisualDensity.compact,
+                                    shape: const CircleBorder(),
+                                  ),
+                                  icon: const Icon(Icons.add_rounded),
+                                ),
+                              const SizedBox(height: 8),
+                              if (state.latestCart?.isProductInCart(product.id,) ==
+                                  true)
+                                ProductQuantityController(
+                                  quantity: state.latestCart?.getProductQuantity(product.id) ?? 0,
+                                  onChanged: (newQuantity) {
+                                    cartCubit.updateQuantity(product.id, newQuantity);
+                                  },
+                                ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),

@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_e_commerce_v2/core/routing/routes.dart';
+import 'package:route_e_commerce_v2/core/utils/dialog_utils.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_cubit.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cart_cubit%20/cart_state.dart';
 import 'package:route_e_commerce_v2/features/cart/presentation/screen/cart_screen.dart';
 import 'package:route_e_commerce_v2/features/auth/ui/login/view/login.dart';
 import 'package:route_e_commerce_v2/features/navigation_layout/navigation_view.dart';
@@ -14,40 +18,36 @@ abstract class AppRouter {
     }
 
     final uri = Uri.parse(settings.name ?? '/');
-
+    Widget currentScreen;
     switch (uri.path) {
       case Routes.navigationRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const NavigationView(),
-        );
+        currentScreen = const NavigationView();
       case Routes.loginRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) =>  Login(),
-        );
+        currentScreen = Login();
       case Routes.categoryProductsRoutes:
         final args = settings.arguments as CategoryProductArgs;
-        return MaterialPageRoute(builder: (context){
-          return CategoryProducts(
-            categoryId: args.categoryId,
-            subCategoryId: args.subCategoryId,
-          );
-        });
-      case Routes.cartRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const CartScreen(),
+        currentScreen = CategoryProducts(
+          categoryId: args.categoryId,
+          subCategoryId: args.subCategoryId,
         );
-
+      case Routes.cartRoute:
+        currentScreen = const CartScreen();
       default:
-        return MaterialPageRoute(
-          settings: settings,
-          builder:
-              (_) => const Scaffold(
-                body: Center(child: Text('404 - Page Not Found')),
-              ),
+        currentScreen = const Scaffold(
+          body: Center(child: Text('404 - Page Not Found')),
         );
     }
+    return MaterialPageRoute(
+      builder: (_) => BlocListener<CartCubit, CartState>(
+        listener: (context, state) {
+          if (state.cartApiState.isLoading) {
+            showLoading(context);
+          } else {
+            hideLoading(context);
+          }
+        },
+        child: currentScreen,
+      ),
+    );
   }
 }

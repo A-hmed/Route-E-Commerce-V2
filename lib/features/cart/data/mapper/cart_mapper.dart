@@ -28,11 +28,13 @@ class CartMapper {
 
   CartEntry cartEntryDMToCartEntry(CartEntryDM cartEntry) {
     var quantity = cartEntry.count ?? 0;
+    double price = cartEntry.price?.toDouble() ?? 0.0;
     var product = productMapper.fromDataModel(cartEntry.product!);
     return CartEntry(
       product: product,
       quantity: quantity,
-      totalProductPrice: quantity * product.price,
+      totalProductPrice: quantity * price,
+      price: price
     );
   }
 }
