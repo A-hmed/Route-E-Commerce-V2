@@ -21,17 +21,20 @@ class CartMapper {
       map[entry.product?.id ?? ""] = cartEntryDMToCartEntry(entry);
     });
     return Cart(
-      products: map,
+      cartEntries: map,
       totalCartPrice: cart.totalCartPrice?.toDouble() ?? 0,
     );
   }
 
   CartEntry cartEntryDMToCartEntry(CartEntryDM cartEntry) {
     var quantity = cartEntry.count?.toInt() ?? 0;
+
     var price = cartEntry.price?.toDouble() ?? 0;
+    print("cartEntryDMToCartEntry: ${price}");
     return CartEntry(
       product: productMapper.fromDataModel(cartEntry.product!),
       quantity: quantity,
+      price: price,
       totalProductPrice: quantity * price,
     );
   }

@@ -4,10 +4,12 @@ class CartEntry {
   Product product;
   int quantity;
   double totalProductPrice;
+  double price;
 
   CartEntry({
     required this.product,
     required this.quantity,
     required this.totalProductPrice,
+    required this.price,
   });
 }

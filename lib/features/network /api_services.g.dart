@@ -198,7 +198,7 @@ class _ApiServices implements ApiServices {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/v1/cart',
+            '/cart',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -226,7 +226,7 @@ class _ApiServices implements ApiServices {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/v1/cart',
+            '/cart',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -278,7 +278,7 @@ class _ApiServices implements ApiServices {
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/cart/${productId}}',
+            '/cart/${productId}',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -1,19 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:route_e_commerce_v2/core/l10n/translations/app_localizations.dart';
 import 'package:route_e_commerce_v2/core/utils/app_assets.dart';
-import 'package:route_e_commerce_v2/features/cart/domain/entities/cart_product_entity.dart';
+import 'package:route_e_commerce_v2/features/cart/domain/model/cart_entry.dart';
+import 'package:route_e_commerce_v2/features/cart/presentation/cubit/cart_cubit.dart';
 
 class CartProductWidget extends StatelessWidget {
-  final CartProduct cartProduct;
-  final int colorIndex;
+  final CartEntry cartEntry;
 
-  const CartProductWidget({
-    super.key,
-    required this.cartProduct,
-    required this.colorIndex,
-  });
+  const CartProductWidget({super.key, required this.cartEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,7 @@ class CartProductWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 child: CachedNetworkImage(
                   imageUrl:
-                      cartProduct.product?.imageCover ??
+                      cartEntry.product.imageCover ??
                       NetworkImages.noImageAvailable,
                   fit: BoxFit.cover,
                   placeholder:
@@ -65,7 +62,7 @@ class CartProductWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      cartProduct.product?.title ?? '',
+                      cartEntry.product.title ?? '',
                       style: textTheme.headlineMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -73,13 +70,7 @@ class CartProductWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    cartProduct.product?.availableColors?[colorIndex] ?? '',
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.secondary.withValues(alpha: .6),
-                    ),
-                  ),
-                  Text(
-                    '${AppLocalizations.of(context)!.egp} ${cartProduct.price}',
+                    '${AppLocalizations.of(context)!.egp} ${cartEntry.price}',
                     style: textTheme.headlineMedium,
                   ),
                 ],
@@ -91,7 +82,13 @@ class CartProductWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  BlocProvider.of<CartCubit>(
+                    context,
+                  ).removeProductFromCart(
+                    cartEntry.product.id ?? "",
+                  );
+                },
                 icon: const Icon(Iconsax.trash_outline),
               ),
               Container(
@@ -110,7 +107,12 @@ class CartProductWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        //TODO: Implement (-) product count
+                        BlocProvider.of<CartCubit>(
+                          context,
+                        ).updateProductQuantity(
+                          cartEntry.product.id ?? "",
+                          cartEntry.quantity - 1,
+                        );
                       },
                       child: Icon(
                         Icons.remove_circle_outline,
@@ -119,14 +121,19 @@ class CartProductWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      cartProduct.count.toString(),
+                      cartEntry.quantity.toString(),
                       style: textTheme.headlineMedium?.copyWith(
                         color: colorScheme.onPrimary,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        //TODO: Implement add product count
+                        BlocProvider.of<CartCubit>(
+                          context,
+                        ).updateProductQuantity(
+                          cartEntry.product.id ?? "",
+                          cartEntry.quantity + 1,
+                        );
                       },
                       child: Icon(
                         Icons.add_circle_outline,

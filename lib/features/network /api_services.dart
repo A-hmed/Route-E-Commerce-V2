@@ -43,16 +43,16 @@ abstract class ApiServices {
     @Path() String categoryId,
   );
 
-  @GET("/v1/cart")
+  @GET("/cart")
   Future<CartResponse> getCart();
 
-  @POST("/v1/cart")
+  @POST("/cart")
   Future<dynamic> addToCart(@Body() AddProductToCartRequest request);
 
   @DELETE("/cart/{productId}")
   Future<CartResponse> removeFromCart(@Path() String productId);
 
-  @PUT("/cart/{productId}}")
+  @PUT("/cart/{productId}")
   Future<CartResponse> updateQuantityInCart(
     @Path() String productId,
     @Body() UpdateProductQuantityRequest request,

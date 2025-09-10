@@ -1,10 +1,10 @@
 import 'package:route_e_commerce_v2/features/navigation_layout/tabs/favorite/domain/entities/wishlist_entity.dart';
-import 'package:route_e_commerce_v2/features/products/data/model/products_dto.dart';
+import 'package:route_e_commerce_v2/features/network%20/model/response/products_response/product_dm.dart';
 
 class WishlistResponseDto {
   String? status;
   int? count;
-  List<ProductsDto>? data;
+  List<ProductDM>? data;
 
   WishlistResponseDto({this.status, this.count, this.data});
 
@@ -12,9 +12,9 @@ class WishlistResponseDto {
     status = json['status'];
     count = json['count'];
     if (json['data'] != null) {
-      data = <ProductsDto>[];
+      data = <ProductDM>[];
       json['data'].forEach((v) {
-        data!.add(ProductsDto.fromJson(v));
+        data!.add(ProductDM.fromJson(v));
       });
     }
   }
@@ -31,6 +31,6 @@ class WishlistResponseDto {
 
   Wishlist toEntity() => Wishlist(
     count: count,
-    products: data?.map((product) => product.toEntity()).toList(),
+    // products: data?.map((product) => product.toEntity()).toList(),
   );
 }

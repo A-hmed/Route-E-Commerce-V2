@@ -23,6 +23,14 @@ import '../../features/auth/domain/usecases/login_usecase.dart' as _i188;
 import '../../features/auth/domain/usecases/register_usecase.dart' as _i941;
 import '../../features/auth/ui/login/cubit/login_cubit.dart' as _i416;
 import '../../features/cart/data/mapper/cart_mapper.dart' as _i817;
+import '../../features/cart/data/repository/cart_repository_impl.dart'
+    as _i1063;
+import '../../features/cart/data/repository/data_source/cart_remote_data_source.dart'
+    as _i747;
+import '../../features/cart/data/repository/data_source/cart_remote_data_source_impl.dart'
+    as _i950;
+import '../../features/cart/domain/repository/cart_repository.dart' as _i26;
+import '../../features/cart/presentation/cubit/cart_cubit.dart' as _i499;
 import '../../features/navigation_layout/data/mappers/category_mapper.dart'
     as _i662;
 import '../../features/navigation_layout/data/mappers/product_mapper.dart'
@@ -67,6 +75,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i817.CartMapper>(
       () => _i817.CartMapper(gh<_i993.ProductMapper>()),
     );
+    gh.factory<_i747.CartRemoteDataSource>(
+      () => _i950.CartRemoteDataSourceImpl(gh<_i635.ApiServices>()),
+    );
     gh.factory<_i385.AuthRemoteDataSource>(
       () => _i1045.AuthRemoteDataSourceImpl(gh<_i635.ApiServices>()),
     );
@@ -101,6 +112,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i726.LoadSubCategoriesUseCase>(
       () => _i726.LoadSubCategoriesUseCase(gh<_i318.HomeRepository>()),
     );
+    gh.factory<_i26.CartRepository>(
+      () => _i1063.CartRepositoryImpl(
+        gh<_i817.CartMapper>(),
+        gh<_i747.CartRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i917.CategoriesCubit>(
       () => _i917.CategoriesCubit(
         gh<_i562.LoadCategoriesUseCase>(),
@@ -118,6 +135,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i795.LoadProductsUseCase>(),
         gh<_i562.LoadCategoriesUseCase>(),
       ),
+    );
+    gh.factory<_i499.CartCubit>(
+      () => _i499.CartCubit(gh<_i26.CartRepository>()),
     );
     return this;
   }
